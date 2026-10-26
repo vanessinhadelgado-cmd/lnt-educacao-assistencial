@@ -2,41 +2,57 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>LNT · Educação Assistencial</title>
 <style>
-:root{--pri:#a33f00;--onp:#fff;--s:#fff8f5;--s2:#f6ece6;--on:#221a15;--mut:#53443c;--ln:#d8c2b8;--sel:#d8e2ff;--err:#ba1a1a;--ok:#1e6b3a;color-scheme:light}
-@media(prefers-color-scheme:dark){:root{--pri:#ffb692;--onp:#571f00;--s:#1a120e;--s2:#271e19;--on:#f0dfd7;--mut:#d8c2b8;--ln:#52443c;--sel:#13305e;--err:#ffb4ab;--ok:#8fd8a3;color-scheme:dark}}
+:root{
+--brand:#A33F00; /* ÚNICA LINHA PARA TROCAR A COR DA MARCA */
+--pri:var(--brand);--onp:#fff;
+--pc:color-mix(in oklab,var(--brand) 14%,#fff);--opc:color-mix(in oklab,var(--brand) 55%,#000);
+--bg:color-mix(in oklab,var(--brand) 3%,#fff);--surf:color-mix(in oklab,var(--brand) 7%,#fff);--surf2:color-mix(in oklab,var(--brand) 13%,#fff);
+--on:#1D1B1A;--mut:#5C5552;--ln:#DDD3CE;--err:#B3261E;--ok:#1B6B3A;
+--sh:0 1px 2px rgb(0 0 0/.06);color-scheme:light}
+@media(prefers-color-scheme:dark){:root{
+--pri:color-mix(in oklab,var(--brand) 45%,#fff);--onp:color-mix(in oklab,var(--brand) 30%,#000);
+--pc:color-mix(in oklab,var(--brand) 40%,#000);--opc:color-mix(in oklab,var(--brand) 20%,#fff);
+--bg:color-mix(in oklab,var(--brand) 5%,#131110);--surf:color-mix(in oklab,var(--brand) 9%,#1C1917);--surf2:color-mix(in oklab,var(--brand) 16%,#1C1917);
+--on:#EDE6E2;--mut:#BDB2AC;--ln:#463E3A;--err:#FFB4AB;--ok:#8FD8A3;--sh:none;color-scheme:dark}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--s);color:var(--on);font:16px/1.5 Roboto,system-ui,"Segoe UI",sans-serif}
-header{background:var(--s2);padding:14px 16px;font-weight:600}
-main{max-width:640px;margin:0 auto;padding:16px 16px 64px}
-main.w{max-width:980px}
-h2{font-size:1.35rem;margin:12px 0 4px}
-.mut{color:var(--mut);margin:0 0 8px}
-label{display:block;font-weight:600;font-size:.9rem;margin:14px 0 4px}
-input,textarea,select{width:100%;min-height:48px;padding:10px;border:1px solid var(--mut);border-radius:6px;background:transparent;color:inherit;font:inherit}
-textarea{min-height:92px}
-.btn{min-height:48px;padding:0 22px;border:0;border-radius:24px;background:var(--pri);color:var(--onp);font:600 1rem inherit;cursor:pointer}
-.btn.alt{background:transparent;color:var(--pri);border:1px solid var(--ln)}
-.btn:disabled{opacity:.6}
-.row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+body{margin:0;background:var(--bg);color:var(--on);font:16px/1.5 -apple-system,"SF Pro Text",Roboto,"Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+header{position:sticky;top:0;z-index:5;padding:calc(12px + env(safe-area-inset-top)) 24px 12px;background:color-mix(in oklab,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font-size:.8125rem;font-weight:500;letter-spacing:.02em;color:var(--mut)}
+main{max-width:560px;margin:0 auto;padding:8px 16px calc(48px + env(safe-area-inset-bottom))}
+main.w{max-width:960px}
+main:not(.w) section{background:var(--surf);border-radius:20px;padding:8px 20px 24px;box-shadow:var(--sh)}
+h2{font-size:1.5rem;line-height:1.25;font-weight:600;letter-spacing:-.01em;margin:16px 0 4px}
+h3{font-size:1rem;font-weight:600;margin:32px 0 4px}
+.mut{color:var(--mut);font-size:.875rem;margin:0 0 8px}
+label{display:block;font-size:.8125rem;font-weight:500;color:var(--mut);margin:20px 0 6px}
+input,textarea,select{width:100%;min-height:52px;padding:12px 16px;border:1px solid var(--ln);border-radius:14px;background:var(--bg);color:var(--on);font:inherit;transition:border-color .15s,box-shadow .15s}
+textarea{min-height:96px;resize:vertical}
+::placeholder{color:var(--mut);opacity:.7}
+input:focus,textarea:focus,select:focus{outline:0;border-color:var(--pri);box-shadow:0 0 0 3px color-mix(in oklab,var(--pri) 25%,transparent)}
+.btn{min-height:52px;padding:0 24px;border:0;border-radius:26px;background:var(--pri);color:var(--onp);font:600 1rem inherit;cursor:pointer;transition:transform .1s,opacity .15s}
+.btn:active{transform:scale(.98)}
+.btn.alt{background:var(--pc);color:var(--opc);border:0}
+.btn:disabled{opacity:.5}
+.row{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
 .row>*{flex:1 1 160px}
-.seg{display:flex;border:1px solid var(--mut);border-radius:24px;overflow:hidden;flex-wrap:wrap}
-.seg button{flex:1;min-height:48px;border:0;border-right:1px solid var(--mut);background:none;color:inherit;font:inherit;padding:0 8px;cursor:pointer}
-.seg button:last-child{border:0}
-.seg .on{background:var(--sel);font-weight:700}
-.prog{height:4px;background:var(--ln);border-radius:2px;margin:8px 0}
-.prog i{display:block;height:100%;background:var(--pri);border-radius:2px;transition:width .2s}
-.msg{color:var(--err);min-height:1.5em;margin:12px 0 0}
-.card{background:var(--s2);border-radius:12px;padding:4px 12px;margin:8px 0}
-summary{cursor:pointer;min-height:48px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-details>summary{margin-top:8px}
-dt{font-weight:600;font-size:.85rem;margin-top:10px}
-dd{margin:0;white-space:pre-wrap}
-.ok{width:64px;height:64px;border-radius:50%;background:var(--sel);color:var(--ok);display:grid;place-items:center;font-size:32px;margin:32px auto 12px}
-.c{text-align:center}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{flex:1 1 auto;min-height:48px;padding:0 16px;border:1px solid var(--ln);border-radius:14px;background:var(--bg);color:var(--on);font:inherit;cursor:pointer;transition:background .15s,border-color .15s}
+.seg .on{background:var(--pc);border-color:var(--pri);color:var(--opc);font-weight:600}
+.seg .on::before{content:"✓ "}
+.prog{height:6px;background:var(--surf2);border-radius:3px;margin:8px 0 12px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--pri);border-radius:3px;transition:width .25s}
+.msg{color:var(--err);font-size:.875rem;margin:16px 0 0}
+.msg:not(:empty){background:color-mix(in oklab,var(--err) 10%,transparent);padding:12px 16px;border-radius:12px}
+.card{background:var(--surf);border-radius:16px;padding:4px 16px;margin:12px 0;box-shadow:var(--sh)}
+summary{cursor:pointer;min-height:56px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+dt{font-size:.8125rem;font-weight:500;color:var(--mut);margin-top:16px}
+dd{margin:2px 0 12px;white-space:pre-wrap}
+.ok{width:72px;height:72px;border-radius:50%;background:color-mix(in oklab,var(--ok) 14%,var(--bg));color:var(--ok);display:grid;place-items:center;font-size:32px;margin:40px auto 16px}
+.c{text-align:center;padding-bottom:16px}
 :focus-visible{outline:3px solid var(--pri);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
@@ -75,7 +91,7 @@ function form(){
  const fld=k=>{const[l,t,p,r]=F[k];return `<label for="${k}">${esc(l)}${r?" *":""}</label>`+(t==="t"?`<textarea id="${k}" placeholder="${esc(p)}"></textarea>`:`<input id="${k}" placeholder="${esc(p)}" autocomplete="off">`)};
  const seg=k=>`<label>${LB[k]}${k==="criticidade"?" *":""}</label><div class="seg" data-k="${k}">${OPS[k].map(o=>`<button type="button" data-v="${o}">${o}</button>`).join("")}</div>`;
  $("m").className="";
- $("m").innerHTML=`<div class="prog"><i id="pg"></i></div><p class="mut" id="sp"></p>`+ST.map((s,i)=>`<section id="s${i}" hidden><h2>${s.t}</h2>${s.h?`<p class="mut">${s.h}</p>`:""}${s.k.map(fld).join("")}${s.seg?seg("criticidade")+seg("prazo")+seg("formato")+`<details><summary>+ Quero detalhar mais (opcional)</summary>${s.more.map(fld).join("")}</details>`:""}</section>`).join("")+`<p class="msg" id="nt" role="alert"></p><div class="row" id="nv"><button class="btn alt" id="bk" type="button">Voltar</button><button class="btn" id="nx" type="button">Continuar</button></div><div id="dn" hidden></div>`;
+ $("m").innerHTML=`<div class="prog"><i id="pg"></i></div><p class="mut" id="sp"></p>`+ST.map((s,i)=>`<section id="s${i}" hidden><h2>${s.t}</h2>${s.h?`<p class="mut">${s.h}</p>`:""}${s.k.map(fld).join("")}${s.seg?seg("criticidade")+seg("prazo")+seg("formato")+`<h3>Quer detalhar mais? (opcional)</h3><p class="mut">Se você já souber, ajuda a Educação a planejar melhor.</p>${s.more.map(fld).join("")}`:""}</section>`).join("")+`<p class="msg" id="nt" role="alert"></p><div class="row" id="nv"><button class="btn alt" id="bk" type="button">Voltar</button><button class="btn" id="nx" type="button">Continuar</button></div><div id="dn" hidden></div>`;
  const paint=()=>document.querySelectorAll(".seg button").forEach(b=>b.classList.toggle("on",V[b.parentNode.dataset.k]===b.dataset.v));
  const go=n=>{cur=n;ST.forEach((_,i)=>$("s"+i).hidden=i!==n);$("pg").style.width=(n+1)*25+"%";$("sp").textContent="Etapa "+(n+1)+" de 4";$("bk").hidden=n===0;$("nx").textContent=n===3?"Enviar necessidade":"Continuar";msg("");window.scrollTo(0,0)};
  $("m").addEventListener("click",e=>{const b=e.target.closest(".seg button");if(b){V[b.parentNode.dataset.k]=b.dataset.v;paint()}});
