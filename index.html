@@ -44,6 +44,7 @@ input:focus,textarea:focus,select:focus{outline:0;border-color:var(--pri);box-sh
 .prog{height:6px;background:var(--surf2);border-radius:3px;margin:8px 0 12px;overflow:hidden}
 .prog i{display:block;height:100%;background:var(--pri);border-radius:3px;transition:width .25s}
 .note{background:var(--pc);color:var(--opc);padding:12px 16px;border-radius:14px;font-size:.875rem;font-weight:500;margin:12px 0 0}
+.hint{font-size:.8125rem;color:var(--mut);margin-top:8px}
 .msg{color:var(--err);font-size:.875rem;margin:16px 0 0}
 .msg:not(:empty){background:color-mix(in oklab,var(--err) 10%,transparent);padding:12px 16px;border-radius:12px}
 .card{background:var(--surf);border-radius:16px;padding:4px 16px;margin:12px 0;box-shadow:var(--sh)}
@@ -74,37 +75,37 @@ publico:["Para quem é a solução?","t","Perfil, local, formação",0],
 diferente:["O que eles precisam fazer diferente e melhor?","t","Comportamentos e atitudes",0],
 resultados:["Que resultados esse treinamento vai trazer ao negócio?","t","Indicadores, custos, segurança do paciente",0],
 medir:["Como saberemos se o público está atuando melhor?","t","Pessoas e/ou indicadores",0],
-conteudista:["Conteúdo / conteudista","t","Quem conhece o assunto? Qual área?",0],
+conteudista:["Quem conhece bem esse assunto e pode ajudar com o conteúdo?","t","Nome e área, se souber",0],
 fatores:["Fatores críticos de sucesso","t","Ex.: adesão ao protocolo",0],
-fornecedores:["Fornecedores envolvidos","t","Ex.: gráfica, fábrica de conteúdo",0],
 sucesso:["Essa experiência será um sucesso se…","t","Ex.: liderança acompanhar, melhora nos indicadores",0],
-recursos:["Recursos e infraestrutura","i","AVA, salas…",0]};
+justificativa:["Por que isso não pode esperar?","t","Ex.: risco ao paciente, auditoria, indicador fora da meta",0]};
 const ST=[
-{t:"Onde é o problema?",h:"Esta ferramenta reúne as necessidades de treinamento das áreas assistenciais. Em cerca de 3 minutos, conte o que está acontecendo e o que precisa melhorar: com as suas respostas, a Educação Assistencial planeja o cronograma de treinamentos de 2027.",n:"Não inclua nomes nem dados de pacientes.",k:["codigo","hospital","area","solicitante"]},
+{t:"Onde é o problema?",h:"Esta ferramenta reúne as necessidades de treinamento das áreas assistenciais. Em cerca de 3 minutos, conte o que está acontecendo e o que precisa melhorar: com as suas respostas, a Educação Assistencial planeja o cronograma de treinamentos de 2027. Os prazos são combinados com a equipe, de acordo com a capacidade disponível.",n:"Não inclua nomes nem dados de pacientes.",k:["codigo","hospital","area","solicitante"]},
 {t:"O que está acontecendo?",k:["acontecendo","publico"]},
 {t:"O que precisa mudar?",h:"Pode pular se não souber agora.",k:["diferente","resultados"]},
-{t:"Qual a urgência?",k:[],seg:1,more:["medir","conteudista","fatores","fornecedores","sucesso","recursos"]}];
+{t:"Qual a urgência?",k:[],seg:1,more:["medir","conteudista","fatores","sucesso"]}];
 const OPS={criticidade:["Alta","Média","Baixa"],prazo:["Até 30 dias","Até 90 dias","Até 180 dias","Sem prazo definido"],formato:["Presencial","EAD","Blended"]};
-const LB={criticidade:"Criticidade",prazo:"Para quando?",formato:"Formato preferido"};
+const LB={criticidade:"Criticidade",prazo:"Para quando você precisa?",formato:"Formato preferido"};
 
 function form(){
  let V={criticidade:"",prazo:"Sem prazo definido",formato:""},cur=0;
  const fld=k=>{const[l,t,p,r]=F[k];return `<label for="${k}">${esc(l)}${r?" *":""}</label>`+(t==="t"?`<textarea id="${k}" placeholder="${esc(p)}"></textarea>`:`<input id="${k}" placeholder="${esc(p)}" autocomplete="off">`)};
  const seg=k=>`<label>${LB[k]}${k==="criticidade"?" *":""}</label><div class="seg" data-k="${k}">${OPS[k].map(o=>`<button type="button" data-v="${o}">${o}</button>`).join("")}</div>`;
  $("m").className="";
- $("m").innerHTML=`<div class="prog"><i id="pg"></i></div><p class="mut" id="sp"></p>`+ST.map((s,i)=>`<section id="s${i}" hidden><h2>${s.t}</h2>${s.h?`<p class="mut">${s.h}</p>`:""}${s.n?`<p class="note">${s.n}</p>`:""}${s.k.map(fld).join("")}${s.seg?seg("criticidade")+seg("prazo")+seg("formato")+`<h3>Quer detalhar mais? (opcional)</h3><p class="mut">Se você já souber, ajuda a Educação a planejar melhor.</p>${s.more.map(fld).join("")}`:""}</section>`).join("")+`<p class="msg" id="nt" role="alert"></p><div class="row" id="nv"><button class="btn alt" id="bk" type="button">Voltar</button><button class="btn" id="nx" type="button">Continuar</button></div><div id="dn" hidden></div>`;
+ $("m").innerHTML=`<div class="prog"><i id="pg"></i></div><p class="mut" id="sp"></p>`+ST.map((s,i)=>`<section id="s${i}" hidden><h2>${s.t}</h2>${s.h?`<p class="mut">${s.h}</p>`:""}${s.n?`<p class="note">${s.n}</p>`:""}${s.k.map(fld).join("")}${s.seg?seg("criticidade")+`<div class="hint"><b>Alta:</b> risco direto ao paciente ou à segurança, exigência regulatória ou de auditoria, ou indicador crítico fora da meta.<br><b>Média:</b> impacto relevante na assistência, sem risco imediato.<br><b>Baixa:</b> melhoria ou desenvolvimento, sem prazo crítico.</div>`+seg("prazo")+`<div id="jw" hidden>${fld("justificativa")}</div>`+seg("formato")+`<h3>Quer detalhar mais? (opcional)</h3><p class="mut">Se você já souber, ajuda a Educação a planejar melhor.</p>${s.more.map(fld).join("")}`:""}</section>`).join("")+`<p class="msg" id="nt" role="alert"></p><div class="row" id="nv"><button class="btn alt" id="bk" type="button">Voltar</button><button class="btn" id="nx" type="button">Continuar</button></div><div id="dn" hidden></div>`;
  const paint=()=>document.querySelectorAll(".seg button").forEach(b=>b.classList.toggle("on",V[b.parentNode.dataset.k]===b.dataset.v));
  const go=n=>{cur=n;ST.forEach((_,i)=>$("s"+i).hidden=i!==n);$("pg").style.width=(n+1)*25+"%";$("sp").textContent="Etapa "+(n+1)+" de 4";$("bk").hidden=n===0;$("nx").textContent=n===3?"Enviar necessidade":"Continuar";msg("");window.scrollTo(0,0)};
- $("m").addEventListener("click",e=>{const b=e.target.closest(".seg button");if(b){V[b.parentNode.dataset.k]=b.dataset.v;paint()}});
+ $("m").addEventListener("click",e=>{const b=e.target.closest(".seg button");if(b){V[b.parentNode.dataset.k]=b.dataset.v;paint();jw()}});
  $("bk").onclick=()=>go(cur-1);
  $("nx").onclick=()=>{
   const miss=ST[cur].k.find(k=>F[k][3]&&!$(k).value.trim());
   if(miss){msg("Preencha: "+F[miss][0].replace(/ \(.*\)/,"")+".");$(miss).focus();return}
   if(cur<3){go(cur+1);return}
   if(!V.criticidade){msg("Escolha a criticidade.");return}
+  if(!$("jw").hidden&&!$("justificativa").value.trim()){msg("Explique por que isso não pode esperar.");$("justificativa").focus();return}
   send()};
  async function send(){
-  const p={};Object.keys(F).forEach(k=>p[k]=$(k).value.trim());Object.assign(p,V);
+  const p={};Object.keys(F).forEach(k=>p[k]=$(k).value.trim());Object.assign(p,V);if($("jw").hidden)p.justificativa="";
   const cod=p.codigo;delete p.codigo;
   $("nx").disabled=true;
   try{
@@ -120,6 +121,7 @@ function form(){
   $("dn").hidden=false;
   $("dn").innerHTML=`<div class="ok" aria-hidden="true">✓</div><div class="c"><h2>Recebemos sua necessidade</h2><p>${esc(p.area)} · ${esc(p.acontecendo)}</p><p class="mut">Criticidade ${esc(p.criticidade.toLowerCase())} · ${esc(p.prazo.toLowerCase())}<br>A Educação Assistencial vai analisar e retornar com o mês no cronograma.</p><button class="btn" id="again">Registrar outra</button></div>`;
   $("again").onclick=form}
+ const jw=()=>{$("jw").hidden=!(V.criticidade==="Alta"||V.prazo==="Até 30 dias")};
  const hc=v=>{$("codigo").hidden=v;$("codigo").previousElementSibling.hidden=v};
  const c0=new URLSearchParams(location.search).get("c");
  if(c0){$("codigo").value=c0.trim();hc(true)}
@@ -127,7 +129,7 @@ function form(){
 
 let rows=[],T=null,fa="",fc="";
 const SC=d=>({Alta:3,"Média":2,Baixa:1}[d.criticidade]||0)*2+({"Até 30 dias":3,"Até 90 dias":2,"Até 180 dias":1}[d.prazo]||0);
-const DK=["solicitante","acontecendo","publico","diferente","resultados","medir","conteudista","fatores","fornecedores","sucesso","recursos","formato"];
+const DK=["solicitante","acontecendo","justificativa","publico","diferente","resultados","medir","conteudista","fatores","sucesso","formato"];
 function panel(){
  $("m").className="w";
  $("m").innerHTML=`<h2>Painel da Educação</h2><p class="mut">Acesso restrito.</p><form id="lg"><label for="em">E-mail</label><input id="em" type="email" autocomplete="username"><label for="pw">Senha</label><input id="pw" type="password" autocomplete="current-password"><p class="msg" id="nt" role="alert"></p><button class="btn">Entrar</button></form>`;
@@ -150,7 +152,7 @@ function draw(){
  $("fc").onchange=e=>{fc=e.target.value;draw()};
  $("ex").onclick=()=>csv(L)}
 function csv(L){
- const C=["criado_em","hospital","area","solicitante","criticidade","prazo","formato","acontecendo","publico","diferente","resultados","medir","conteudista","fatores","fornecedores","sucesso","recursos","status"];
+ const C=["criado_em","hospital","area","solicitante","criticidade","prazo","justificativa","formato","acontecendo","publico","diferente","resultados","medir","conteudista","fatores","sucesso","status"];
  const q=v=>{let s=String(v==null?"":v);if(/^[=+\-@]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'};
  const t="\ufeff"+[C.map(q),...L.map(r=>C.map(c=>q(c==="criado_em"?new Date(r[c]).toLocaleDateString("pt-BR"):r[c])))].map(l=>l.join(";")).join("\r\n");
  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/csv;charset=utf-8"}));a.download="LNT_respostas.csv";a.click()}
