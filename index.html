@@ -1,163 +1,338 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>LNT · Educação Assistencial</title>
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LNT · Levantamento de Necessidades de Treinamento</title>
 <style>
-:root{
---brand:#A33F00; /* ÚNICA LINHA PARA TROCAR A COR DA MARCA */
---pri:var(--brand);--onp:#fff;
---pc:color-mix(in oklab,var(--brand) 14%,#fff);--opc:color-mix(in oklab,var(--brand) 55%,#000);
---bg:color-mix(in oklab,var(--brand) 3%,#fff);--surf:color-mix(in oklab,var(--brand) 7%,#fff);--surf2:color-mix(in oklab,var(--brand) 13%,#fff);
---on:#1D1B1A;--mut:#5C5552;--ln:#DDD3CE;--err:#B3261E;--ok:#1B6B3A;
---sh:0 1px 2px rgb(0 0 0/.06);color-scheme:light}
-@media(prefers-color-scheme:dark){:root{
---pri:color-mix(in oklab,var(--brand) 45%,#fff);--onp:color-mix(in oklab,var(--brand) 30%,#000);
---pc:color-mix(in oklab,var(--brand) 40%,#000);--opc:color-mix(in oklab,var(--brand) 20%,#fff);
---bg:color-mix(in oklab,var(--brand) 5%,#131110);--surf:color-mix(in oklab,var(--brand) 9%,#1C1917);--surf2:color-mix(in oklab,var(--brand) 16%,#1C1917);
---on:#EDE6E2;--mut:#BDB2AC;--ln:#463E3A;--err:#FFB4AB;--ok:#8FD8A3;--sh:none;color-scheme:dark}}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f6f7f9;--card:#fff;--ink:#1c2430;--mut:#5d6877;--line:#e3dcd6;--pri:#d2540a;--priink:#fff;--soft:#fdeee3;--warn:#a33a00;--navy:#14305c;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12161b;--card:#1a2027;--ink:#e8ecf1;--mut:#9aa6b4;--line:#2f3640;--pri:#ff8a4c;--priink:#2a1204;--soft:#3a2418;--warn:#ffc07a;--navy:#a9c1ee;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12161b;--card:#1a2027;--ink:#e8ecf1;--mut:#9aa6b4;--line:#2f3640;--pri:#ff8a4c;--priink:#2a1204;--soft:#3a2418;--warn:#ffc07a;--navy:#a9c1ee;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--on);font:16px/1.5 -apple-system,"SF Pro Text",Roboto,"Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-header{position:sticky;top:0;z-index:5;padding:calc(12px + env(safe-area-inset-top)) 24px 12px;background:color-mix(in oklab,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font-size:.8125rem;font-weight:500;letter-spacing:.02em;color:var(--mut)}
-main{max-width:560px;margin:0 auto;padding:8px 16px calc(48px + env(safe-area-inset-bottom))}
-main.w{max-width:960px}
-main:not(.w) section{background:var(--surf);border-radius:20px;padding:8px 20px 24px;box-shadow:var(--sh)}
-h2{font-size:1.5rem;line-height:1.25;font-weight:600;letter-spacing:-.01em;margin:16px 0 4px}
-h3{font-size:1rem;font-weight:600;margin:32px 0 4px}
-.mut{color:var(--mut);font-size:.875rem;margin:0 0 8px}
-label{display:block;font-size:.8125rem;font-weight:500;color:var(--mut);margin:20px 0 6px}
-input,textarea,select{width:100%;min-height:52px;padding:12px 16px;border:1px solid var(--ln);border-radius:14px;background:var(--bg);color:var(--on);font:inherit;transition:border-color .15s,box-shadow .15s}
-textarea{min-height:96px;resize:vertical}
-::placeholder{color:var(--mut);opacity:.7}
-input:focus,textarea:focus,select:focus{outline:0;border-color:var(--pri);box-shadow:0 0 0 3px color-mix(in oklab,var(--pri) 25%,transparent)}
-.btn{min-height:52px;padding:0 24px;border:0;border-radius:26px;background:var(--pri);color:var(--onp);font:600 1rem inherit;cursor:pointer;transition:transform .1s,opacity .15s}
-.btn:active{transform:scale(.98)}
-.btn.alt{background:var(--pc);color:var(--opc);border:0}
-.btn:disabled{opacity:.5}
-.row{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
-.row>*{flex:1 1 160px}
-.seg{display:flex;gap:8px;flex-wrap:wrap}
-.seg button{flex:1 1 auto;min-height:48px;padding:0 16px;border:1px solid var(--ln);border-radius:14px;background:var(--bg);color:var(--on);font:inherit;cursor:pointer;transition:background .15s,border-color .15s}
-.seg .on{background:var(--pc);border-color:var(--pri);color:var(--opc);font-weight:600}
-.seg .on::before{content:"✓ "}
-.prog{height:6px;background:var(--surf2);border-radius:3px;margin:8px 0 12px;overflow:hidden}
-.prog i{display:block;height:100%;background:var(--pri);border-radius:3px;transition:width .25s}
-.note{background:var(--pc);color:var(--opc);padding:12px 16px;border-radius:14px;font-size:.875rem;font-weight:500;margin:12px 0 0}
-.hint{font-size:.8125rem;color:var(--mut);margin-top:8px}
-.msg{color:var(--err);font-size:.875rem;margin:16px 0 0}
-.msg:not(:empty){background:color-mix(in oklab,var(--err) 10%,transparent);padding:12px 16px;border-radius:12px}
-.card{background:var(--surf);border-radius:16px;padding:4px 16px;margin:12px 0;box-shadow:var(--sh)}
-summary{cursor:pointer;min-height:56px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-dt{font-size:.8125rem;font-weight:500;color:var(--mut);margin-top:16px}
-dd{margin:2px 0 12px;white-space:pre-wrap}
-.ok{width:72px;height:72px;border-radius:50%;background:color-mix(in oklab,var(--ok) 14%,var(--bg));color:var(--ok);display:grid;place-items:center;font-size:32px;margin:40px auto 16px}
-.c{text-align:center;padding-bottom:16px}
-:focus-visible{outline:3px solid var(--pri);outline-offset:2px}
-@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:820px;margin:0 auto;padding:20px 16px 48px}
+main::before{content:"";display:block;height:6px;border-radius:3px;background:linear-gradient(90deg,#f26b21,#14305c);margin-bottom:14px}
+h1{font-size:1.4rem;margin:0 0 4px;color:var(--navy)}
+.org{font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--pri);margin-bottom:4px}
+.sub{color:var(--mut);margin:0 0 16px}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tabs button{flex:1;min-height:48px;padding:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--pri);color:var(--priink);border-color:var(--pri);font-weight:600}
+fieldset{border:1px solid var(--line);background:var(--card);border-radius:12px;margin:0 0 16px;padding:14px 16px}
+legend{font-weight:700;padding:0 6px;color:var(--pri)}
+.hint{color:var(--mut);font-size:.9rem;margin:0 0 10px}
+label{display:block;font-weight:600;margin:12px 0 4px;font-size:.95rem}
+label i{color:var(--warn);font-style:normal}
+input,select,textarea{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+textarea{min-height:68px;resize:vertical}
+.btn{padding:11px 18px;border:0;border-radius:10px;background:var(--pri);color:var(--priink);font:inherit;font-weight:600;cursor:pointer}
+.btn.alt{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+.msg{padding:10px 12px;border-radius:8px;background:var(--soft);margin:0 0 14px}
+.msg.err{border:1px solid var(--warn)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.stat b{display:block;font-size:1.5rem}
+.stat span{color:var(--mut);font-size:.85rem}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.bar input,.bar select{flex:1 1 150px;width:auto}
+.item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.item h3{margin:0 0 4px;font-size:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.chip{font-size:.8rem;padding:2px 9px;border-radius:99px;background:var(--soft);border:1px solid var(--line)}
+.chip.hot{border-color:var(--warn);color:var(--warn);font-weight:600}
+details summary{cursor:pointer;color:var(--pri);font-size:.9rem}
+dl{margin:8px 0 0}dt{font-weight:600;font-size:.85rem;color:var(--mut);margin-top:8px}dd{margin:0;white-space:pre-wrap}
+.item select{width:auto;flex:1 1 160px}
+.prog{height:6px;background:var(--line);border-radius:3px;margin:0 0 6px}.prog i{display:block;height:100%;background:var(--pri);border-radius:3px;transition:width .2s}
+.step{font-size:.85rem;color:var(--mut);margin:0 0 14px}.stp h2{font-size:1.25rem;margin:0 0 6px}
+.seg{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 14px}.seg button{flex:1 1 90px;min-height:48px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:24px;font:inherit;cursor:pointer;padding:8px 12px}.seg button.on{background:var(--pri);color:var(--priink);border-color:var(--pri);font-weight:600}
+.seg.m button{flex:1 1 70px}.seg.m button:last-child{flex-basis:100%}
+.note{border-left:4px solid var(--pri);background:var(--soft);padding:10px 14px;border-radius:0 10px 10px 0;margin:0 0 12px}.note p{margin:4px 0}
+.nv{display:flex;gap:8px;margin-top:16px}.nv .btn{min-height:48px;flex:1}
+.ok{width:64px;height:64px;border-radius:50%;background:var(--soft);color:var(--pri);display:grid;place-items:center;font-size:32px;margin:24px auto 12px}.c{text-align:center}
+input,select{min-height:44px}
+[hidden]{display:none!important}
 </style>
 </head>
 <body>
-<header>Educação Assistencial · Levantamento de necessidades de treinamento</header>
-<main id="m"></main>
+<main>
+<div class="org">Diretoria Assistencial · Educação Corporativa Assistencial</div>
+<h1>LNT · Levantamento de Necessidades de Treinamento</h1>
+<p class="sub">Conte o que a sua área precisa. Uma pergunta por vez.</p>
+<div class="tabs"><button id="t1" class="on">Responder</button><button id="t4">Meus pedidos</button><button id="t2" hidden>Pedidos</button><button id="t3" hidden>Cronograma 2027</button></div>
+<div id="notice"></div>
+<div id="lgbox" class="item" hidden><b>Acesso da Educação</b><label for="lge">E-mail</label><input id="lge" type="email" autocomplete="username"><label for="lgp">Senha</label><input id="lgp" type="password" autocomplete="current-password"><div class="nv"><button class="btn" id="lgin">Entrar</button></div></div>
+<section id="v1"><div id="wz"></div></section>
+<section id="v4" hidden><div id="my"></div></section>
+<section id="v2" hidden>
+ <div class="stats" id="stats"></div>
+ <div class="bar">
+  <input id="q" placeholder="Buscar hospital, área ou tema">
+  <select id="fc"><option value="">Criticidade: todas</option><option>Alta</option><option>Média</option><option>Baixa</option></select>
+  <select id="ff"><option value="">Formato: todos</option><option>Presencial</option><option>EAD</option><option>Blended</option></select>
+  <button class="btn alt" id="lk">Copiar link para as áreas</button><button class="btn alt" id="exp">Exportar CSV</button>
+ </div>
+ <div id="list"></div>
+</section>
+<section id="v3" hidden>
+ <p class="hint">Plano Anual de Treinamento 2027, no formato do PAT 2026. Textos em maiúsculas e carga horária em minutos, conforme a DIRETRIZ.</p>
+ <div class="bar"><button class="btn" id="seed">Carregar base SCIRAS (7 treinamentos de 2026)</button><button class="btn alt" id="pexp">Exportar PAT (CSV)</button></div>
+ <details class="item"><summary>Adicionar treinamento</summary><form id="pf"></form></details>
+ <div id="pm"></div>
+</section>
+<p class="c"><button class="btn alt" id="lg">Acesso da Educação</button></p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
-const U="https://qfvbfwqfxvzgmqzladzb.supabase.co",K="sb_publishable_nnc4pqRMIKN0rFsrsVpqDA_rzFKPetr";
-const $=id=>document.getElementById(id),esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const hd=t=>({apikey:K,"Content-Type":"application/json",...(t?{Authorization:"Bearer "+t}:{})});
-const msg=t=>{$("nt").textContent=t||""};
-const F={
-codigo:["Código de acesso","i","Informado pela Educação",1],
-hospital:["Hospital / unidade","i","Ex.: Hospital X",1],
-area:["Área solicitante","i","Ex.: UTI adulto",1],
-solicitante:["Seu nome","i","",0],
-acontecendo:["O que está acontecendo? (necessidade de treinamento)","t","Ex.: aumento do número de quedas",1],
-publico:["Para quem é a solução?","t","Perfil, local, formação",0],
-diferente:["O que eles precisam fazer diferente e melhor?","t","Comportamentos e atitudes",0],
-resultados:["Que resultados esse treinamento vai trazer ao negócio?","t","Indicadores, custos, segurança do paciente",0],
-medir:["Como saberemos se o público está atuando melhor?","t","Pessoas e/ou indicadores",0],
-conteudista:["Quem conhece bem esse assunto e pode ajudar com o conteúdo?","t","Nome e área, se souber",0],
-fatores:["Fatores críticos de sucesso","t","Ex.: adesão ao protocolo",0],
-sucesso:["Essa experiência será um sucesso se…","t","Ex.: liderança acompanhar, melhora nos indicadores",0],
-justificativa:["Por que isso não pode esperar?","t","Ex.: risco ao paciente, auditoria, indicador fora da meta",0]};
+const SB_URL="https://SEU-PROJETO.supabase.co",SB_KEY="COLE_AQUI_A_CHAVE_ANON_OU_PUBLISHABLE";
+/* ===== Camada Supabase (substitui o banco do Claude) ===== */
+const sb=supabase.createClient(SB_URL,SB_KEY);
+const LS={g:(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}},s:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const rid=()=>crypto.randomUUID(),SUBS={},bump=k=>(SUBS[k]||[]).forEach(f=>f());
+let ED=false;
+function col(name){
+ const priv=name.indexOf("data/users/")===0,tbl=priv?"necessidades":name,key=priv?"my":name;
+ let ord=null,lim=1000;
+ const api={
+  orderBy(f,d){ord=[f,d];return api},
+  limit(n){lim=n;return api},
+  onSnapshot(ok,err){
+   const run=async()=>{try{
+    let rows;
+    if(priv){const r=await sb.rpc("meus_pedidos",{tokens:LS.g("lnt_tokens",[])});if(r.error)throw r.error;rows=r.data.map(x=>({id:x.id,d:{...x.data,_cron:x.cron}}))}
+    else{const r=await sb.from(tbl).select("id,data").limit(lim);if(r.error)throw r.error;rows=r.data.map(x=>({id:x.id,d:x.data}))}
+    if(ord){const f=ord[0],s=ord[1]==="desc"?-1:1;rows.sort((a,b)=>s*((a.d[f]>b.d[f])-(a.d[f]<b.d[f])))}
+    ok({docs:rows.map(x=>({id:x.id,data:()=>x.d}))});
+   }catch(e){err&&err(e)}};
+   (SUBS[key]=SUBS[key]||new Set()).add(run);run();
+   const t=setInterval(run,20000);
+   return()=>{clearInterval(t);SUBS[key].delete(run)};
+  },
+  doc(id){return{
+   async set(d){
+    if(priv)return;
+    let r;
+    if(tbl==="necessidades"){const tk=rid();r=await sb.from(tbl).insert({id,token:tk,data:d});if(!r.error){const t=LS.g("lnt_tokens",[]);t.push(tk);LS.s("lnt_tokens",t)}}
+    else r=await sb.from(tbl).upsert({id,data:d});
+    if(r.error)throw r.error;bump(key);bump("my");
+   },
+   async update(p){
+    const c=await sb.from(tbl).select("data").eq("id",id).single();if(c.error)throw c.error;
+    const r=await sb.from(tbl).update({data:{...c.data.data,...p}}).eq("id",id);if(r.error)throw r.error;bump(key);
+   },
+   async delete(){const r=await sb.from(tbl).delete().eq("id",id);if(r.error)throw r.error;bump(key)}
+  }},
+  async add(d){const id=rid();await api.doc(id).set(d);return{id}}
+ };
+ return api;
+}
+const SVC={
+ db:{collection:col},
+ assets:{upload:async f=>{const ext=(f.name.split(".").pop()||"bin").toLowerCase().replace(/[^a-z0-9]/g,"");const p=rid()+"."+ext;const r=await sb.storage.from("anexos").upload(p,f,{contentType:f.type||undefined});if(r.error)throw r.error;return{id:p}}},
+ user:{id:async()=>{let i=LS.g("lnt_uid",null);if(!i){i=rid();LS.s("lnt_uid",i)}return i},canEdit:async()=>{const r=await sb.auth.getSession();return !!(r.data&&r.data.session)}},
+ downloads:{save:async({filename,data})=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type:"text/csv;charset=utf-8"}));a.download=filename;document.body.appendChild(a);a.click();a.remove()}}
+};
+window.claude={use:async n=>SVC[n]||null};
+document.addEventListener("click",async e=>{const a=e.target.closest("[data-sb]");if(!a)return;e.preventDefault();const r=await sb.storage.from("anexos").createSignedUrl(a.dataset.sb,300);if(r.error)note("Não foi possível abrir o anexo.",1);else window.open(r.data.signedUrl,"_blank","noopener")});
+/* ===== Fim da camada Supabase ===== */
+
+const S=[
+{t:"Contexto",f:[["hospital","Hospital / unidade","text","Ex.: Hospital X",1],["area","Área solicitante","text","Ex.: CM",1],["solicitante","Seu nome","text","",0]]},
+{t:"Diagnóstico",f:[
+["acontecendo","O que está acontecendo? (necessidade de treinamento)","area","Ex.: aumento do número de quedas",1],
+["resultados","Que resultados esse treinamento vai trazer ao negócio?","area","Melhorar indicadores, aumentar confiabilidade, reduzir custos, reduzir internação…",0],
+["publico","Para quem é a solução?","area","Média de idade, gênero, localização, formação",0],
+["diferente","O que eles precisam fazer diferente e melhor?","area","Comportamentos e atitudes",0],
+["medir","Como saberemos se o público está atuando melhor?","area","Pessoas e/ou indicadores",0],
+["conteudista","Conteúdo / conteudista","area","Qualidade? Área?",0],
+["fatores","Fatores críticos de sucesso","area","Ex.: adesão ao protocolo",0],
+["fornecedores","Fornecedores envolvidos","area","Fábrica? Loja de brindes? Gráfica?",0],
+["sucesso","Essa experiência de aprendizagem será um sucesso se…","area","Liderança apoiar e acompanhar, adesão ao protocolo, melhora nos indicadores",0]]},
+{t:"Formato e recursos",f:[["formato","Formato","sel",["Presencial","EAD","Blended"],0],["recursos","Recursos e infraestrutura","text","AVA, salas…",0]]},
+{t:"Priorização",f:[["criticidade","Criticidade","sel",["Alta","Média","Baixa"],1],["prazo","Prazo desejado","sel",["Até 30 dias","Até 90 dias","Até 180 dias","Sem prazo definido"],0]]}
+];
+const ALL=S.flatMap(s=>s.f);
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const MN=["JANEIRO","FEVEREIRO","MARÇO","ABRIL","MAIO","JUNHO","JULHO","AGOSTO","SETEMBRO","OUTUBRO","NOVEMBRO","DEZEMBRO"];
+const score=d=>({Alta:3,"Média":2,Baixa:1}[d.criticidade]||0)*2+(MN.includes(d.prazo)?Math.ceil((12-MN.indexOf(d.prazo))/4):({"Até 30 dias":3,"Até 90 dias":2,"Até 180 dias":1}[d.prazo]||0));
+let db=null,items=[],subscribed=false,asg=null,mine=false,myItems=[];
+
+function note(t,err){$("notice").innerHTML=t?"<p class='msg"+(err?" err":"")+"'>"+esc(t)+"</p>":""}
+
+const FD=Object.fromEntries(ALL.map(a=>[a[0],a]));
 const ST=[
-{t:"Onde é o problema?",h:"Esta ferramenta reúne as necessidades de treinamento das áreas assistenciais. Em cerca de 3 minutos, conte o que está acontecendo e o que precisa melhorar: com as suas respostas, a Educação Assistencial planeja o cronograma de treinamentos de 2027. Os prazos são combinados com a equipe, de acordo com a capacidade disponível.",n:"Não inclua nomes nem dados de pacientes.",k:["codigo","hospital","area","solicitante"]},
-{t:"O que está acontecendo?",k:["acontecendo","publico"]},
-{t:"O que precisa mudar?",h:"Pode pular se não souber agora.",k:["diferente","resultados"]},
-{t:"Qual a urgência?",k:[],seg:1,more:["medir","conteudista","fatores","sucesso"]}];
+{t:"Onde é o problema?",k:["hospital","area","solicitante"]},
+{t:"O que está acontecendo?",k:["acontecendo","publico"],pre:1},
+{t:"O que precisa mudar?",k:["diferente","resultados"],h:"Pode pular se não souber agora.",att:1},
+{t:"Qual a urgência?",k:[],seg:1,more:["medir","conteudista","fatores","fornecedores","sucesso","recursos"]}];
 const OPS={criticidade:["Alta","Média","Baixa"],prazo:["Até 30 dias","Até 90 dias","Até 180 dias","Sem prazo definido"],formato:["Presencial","EAD","Blended"]};
-const LB={criticidade:"Criticidade",prazo:"Para quando você precisa?",formato:"Formato preferido"};
+const LB={criticidade:"Criticidade",prazo:"Para quando?",formato:"Formato preferido"};
+const V0={criticidade:"",prazo:"SEM MÊS DEFINIDO",formato:""};let V={...V0},cur=0;
+const ATT='<div id=attw hidden><label for=fl>Protocolo ou documento do treinamento (opcional)</label><input type=file id=fl accept=".pdf,.png,.jpg,.jpeg,.webp"><p class=hint>PDF ou imagem (PNG/JPG), até 20 MB.</p></div>';
+const fld=k=>{const [,l,t,p,r]=FD[k],q=r?" <i>*</i>":"";return "<label for="+k+">"+esc(l)+q+"</label>"+(t==="area"?"<textarea id="+k+" placeholder=\""+esc(p)+"\"></textarea>":"<input id="+k+" placeholder=\""+esc(p)+"\">")};
+const mseg=()=>"<label>Para quando? (2027)</label><div class='seg m' data-k=prazo>"+MN.map(m=>"<button type=button data-v=\""+m+"\""+(V.prazo===m?" class=on":"")+">"+m.slice(0,3)+"</button>").join("")+"<button type=button data-v=\"SEM MÊS DEFINIDO\""+(V.prazo==="SEM MÊS DEFINIDO"?" class=on":"")+">Sem mês definido</button></div>";
+const seg=k=>"<label>"+LB[k]+(k==="criticidade"?" <i>*</i>":"")+"</label><div class=seg data-k="+k+">"+OPS[k].map(o=>"<button type=button data-v=\""+o+"\""+(V[k]===o?" class=on":"")+">"+o+"</button>").join("")+"</div>";
+$("wz").innerHTML="<div class=prog><i id=pg></i></div><p class=step id=sp></p>"+ST.map((s,i)=>"<div class=stp id=s"+i+" hidden><h2>"+esc(s.t)+"</h2>"+(i===0?"<p class=hint>Leva cerca de 3 minutos.</p>":s.h?"<p class=hint>"+esc(s.h)+"</p>":"")+(s.pre?"<div id=pre></div>":"")+s.k.map(fld).join("")+(s.att?ATT:"")+(s.seg?seg("criticidade")+mseg()+seg("formato")+"<details class=item><summary>+ Quero detalhar mais (opcional)</summary>"+s.more.map(fld).join("")+"</details>":"")+"</div>").join("")+"<div class=nv id=nv><button class='btn alt' id=bk>Voltar</button><button class=btn id=nx>Continuar</button></div><div id=done hidden></div>";
+function go(n){cur=n;ST.forEach((_,i)=>$("s"+i).hidden=i!==n);$("pg").style.width=(n+1)*25+"%";$("sp").textContent="Etapa "+(n+1)+" de 4";$("bk").hidden=n===0;$("nx").textContent=n===3?"Enviar necessidade":"Continuar";note("");window.scrollTo(0,0)}
+$("wz").addEventListener("click",e=>{const b=e.target.closest(".seg button");if(!b)return;V[b.parentNode.dataset.k]=b.dataset.v;[...b.parentNode.children].forEach(x=>x.classList.toggle("on",x===b))});
+$("bk").onclick=()=>go(cur-1);
+$("nx").onclick=()=>{
+ const miss=ST[cur].k.find(k=>FD[k][4]&&!$(k).value.trim());
+ if(miss){note("Preencha: "+FD[miss][1].replace(/ \(.*\)/,"")+".",1);$(miss).focus();return}
+ if(cur<3){go(cur+1);return}
+ if(!V.criticidade){note("Escolha a criticidade.",1);return}
+ send();
+};
+async function send(){
+ if(!db){note("Não foi possível salvar: entre na sua conta para enviar.",1);return}
+ const d={};ALL.forEach(([k])=>d[k]=V[k]!==undefined?V[k]:$(k).value.trim());
+ d.formato=d.formato||"A definir";d.criadoEm=Date.now();
+ const fl=$("fl")&&$("fl").files[0];
+ if(fl&&fl.size>20971520){note("O arquivo passa de 20 MB. Escolha um menor.",1);return}
+ $("nx").disabled=true;
+ try{
+  const u=await claude.use("user");d.autor=u?await u.id():null;
+  if(fl&&asg){try{const r=await asg.upload(fl);d.anexoId=r.id;d.anexoNome=fl.name}catch(x){note("Não foi possível enviar o anexo. Tente de novo ou envie sem ele.",1);$("nx").disabled=false;return}}
+  const pid=Date.now().toString(36)+Math.random().toString(36).slice(2,8);d.pedidoId=pid;d.prazo=d.prazo||"SEM MÊS DEFINIDO";
+  await db.collection("necessidades").doc(pid).set(d);
+  if(d.autor){try{await db.collection("data/users/"+d.autor).doc(pid).set(d)}catch(x){}}
+  done(d)}
+ catch(x){note("Não foi possível salvar agora. Tente novamente em instantes.",1)}
+ $("nx").disabled=false;
+}
+function done(d){
+ ST.forEach((_,i)=>$("s"+i).hidden=true);$("nv").hidden=true;$("pg").style.width="100%";$("sp").textContent="";
+ $("done").hidden=false;
+ $("done").innerHTML="<div class=ok>✓</div><div class=c><h2>Recebemos sua necessidade</h2><p>"+esc(d.area)+" · "+esc(d.acontecendo)+"</p><p class=hint>Criticidade "+esc(d.criticidade.toLowerCase())+" · "+(d.prazo==="SEM MÊS DEFINIDO"?"sem mês definido":"mês desejado: "+esc(d.prazo.toLowerCase()))+"<br>A Educação vai analisar. Você pode rever o que enviou em Meus pedidos.</p><button class=btn id=again>Registrar outra</button> <button class='btn alt' id=seeMine>Ver meus pedidos</button></div>";
+ $("seeMine").onclick=()=>{$("again").click();tab(4)};
+ $("again").onclick=()=>{
+  ALL.forEach(([k,,t])=>{if(t!=="sel"&&k!=="hospital"&&k!=="solicitante")$(k).value=""});if($("fl"))$("fl").value="";
+  V={...V0};document.querySelectorAll(".seg button").forEach(b=>b.classList.toggle("on",V[b.parentNode.dataset.k]===b.dataset.v));
+  document.querySelector("#wz details").open=false;$("done").hidden=true;$("nv").hidden=false;go(0);
+ };
+}
+go(0);
 
-function form(){
- let V={criticidade:"",prazo:"Sem prazo definido",formato:""},cur=0;
- const fld=k=>{const[l,t,p,r]=F[k];return `<label for="${k}">${esc(l)}${r?" *":""}</label>`+(t==="t"?`<textarea id="${k}" placeholder="${esc(p)}"></textarea>`:`<input id="${k}" placeholder="${esc(p)}" autocomplete="off">`)};
- const seg=k=>`<label>${LB[k]}${k==="criticidade"?" *":""}</label><div class="seg" data-k="${k}">${OPS[k].map(o=>`<button type="button" data-v="${o}">${o}</button>`).join("")}</div>`;
- $("m").className="";
- $("m").innerHTML=`<div class="prog"><i id="pg"></i></div><p class="mut" id="sp"></p>`+ST.map((s,i)=>`<section id="s${i}" hidden><h2>${s.t}</h2>${s.h?`<p class="mut">${s.h}</p>`:""}${s.n?`<p class="note">${s.n}</p>`:""}${s.k.map(fld).join("")}${s.seg?seg("criticidade")+`<div class="hint"><b>Alta:</b> risco direto ao paciente ou à segurança, exigência regulatória ou de auditoria, ou indicador crítico fora da meta.<br><b>Média:</b> impacto relevante na assistência, sem risco imediato.<br><b>Baixa:</b> melhoria ou desenvolvimento, sem prazo crítico.</div>`+seg("prazo")+`<div id="jw" hidden>${fld("justificativa")}</div>`+seg("formato")+`<h3>Quer detalhar mais? (opcional)</h3><p class="mut">Se você já souber, ajuda a Educação a planejar melhor.</p>${s.more.map(fld).join("")}`:""}</section>`).join("")+`<p class="msg" id="nt" role="alert"></p><div class="row" id="nv"><button class="btn alt" id="bk" type="button">Voltar</button><button class="btn" id="nx" type="button">Continuar</button></div><div id="dn" hidden></div>`;
- const paint=()=>document.querySelectorAll(".seg button").forEach(b=>b.classList.toggle("on",V[b.parentNode.dataset.k]===b.dataset.v));
- const go=n=>{cur=n;ST.forEach((_,i)=>$("s"+i).hidden=i!==n);$("pg").style.width=(n+1)*25+"%";$("sp").textContent="Etapa "+(n+1)+" de 4";$("bk").hidden=n===0;$("nx").textContent=n===3?"Enviar necessidade":"Continuar";msg("");window.scrollTo(0,0)};
- $("m").addEventListener("click",e=>{const b=e.target.closest(".seg button");if(b){V[b.parentNode.dataset.k]=b.dataset.v;paint();jw()}});
- $("bk").onclick=()=>go(cur-1);
- $("nx").onclick=()=>{
-  const miss=ST[cur].k.find(k=>F[k][3]&&!$(k).value.trim());
-  if(miss){msg("Preencha: "+F[miss][0].replace(/ \(.*\)/,"")+".");$(miss).focus();return}
-  if(cur<3){go(cur+1);return}
-  if(!V.criticidade){msg("Escolha a criticidade.");return}
-  if(!$("jw").hidden&&!$("justificativa").value.trim()){msg("Explique por que isso não pode esperar.");$("justificativa").focus();return}
-  send()};
- async function send(){
-  const p={};Object.keys(F).forEach(k=>p[k]=$(k).value.trim());Object.assign(p,V);if($("jw").hidden)p.justificativa="";
-  const cod=p.codigo;delete p.codigo;
-  $("nx").disabled=true;
-  try{
-   const r=await fetch(U+"/rest/v1/rpc/enviar_necessidade",{method:"POST",headers:hd(),body:JSON.stringify({p_codigo:cod,p})});
-   if(r.ok)return done(p);
-   const j=await r.json().catch(()=>({}));
-   if(/codigo_invalido/.test(JSON.stringify(j))){hc(false);$("codigo").value="";go(0);msg("Código de acesso incorreto. Confira com a Educação Assistencial.")}
-   else msg("Não foi possível enviar agora. Tente de novo em instantes.");
-  }catch(e){msg("Sem conexão. Confira a internet e tente de novo.")}
-  $("nx").disabled=false}
- function done(p){
-  ST.forEach((_,i)=>$("s"+i).hidden=true);$("nv").hidden=true;$("pg").style.width="100%";$("sp").textContent="";
-  $("dn").hidden=false;
-  $("dn").innerHTML=`<div class="ok" aria-hidden="true">✓</div><div class="c"><h2>Recebemos sua necessidade</h2><p>${esc(p.area)} · ${esc(p.acontecendo)}</p><p class="mut">Criticidade ${esc(p.criticidade.toLowerCase())} · ${esc(p.prazo.toLowerCase())}<br>A Educação Assistencial vai analisar e retornar com o mês no cronograma.</p><button class="btn" id="again">Registrar outra</button></div>`;
-  $("again").onclick=form}
- const jw=()=>{$("jw").hidden=!(V.criticidade==="Alta"||V.prazo==="Até 30 dias")};
- const hc=v=>{$("codigo").hidden=v;$("codigo").previousElementSibling.hidden=v};
- const c0=new URLSearchParams(location.search).get("c");
- if(c0){$("codigo").value=c0.trim();hc(true)}
- paint();go(0)}
 
-let rows=[],T=null,fa="",fc="";
-const SC=d=>({Alta:3,"Média":2,Baixa:1}[d.criticidade]||0)*2+({"Até 30 dias":3,"Até 90 dias":2,"Até 180 dias":1}[d.prazo]||0);
-const DK=["solicitante","acontecendo","justificativa","publico","diferente","resultados","medir","conteudista","fatores","sucesso","formato"];
-function panel(){
- $("m").className="w";
- $("m").innerHTML=`<h2>Painel da Educação</h2><p class="mut">Acesso restrito.</p><form id="lg"><label for="em">E-mail</label><input id="em" type="email" autocomplete="username"><label for="pw">Senha</label><input id="pw" type="password" autocomplete="current-password"><p class="msg" id="nt" role="alert"></p><button class="btn">Entrar</button></form>`;
- $("lg").onsubmit=async e=>{e.preventDefault();msg("");
-  try{
-   const r=await fetch(U+"/auth/v1/token?grant_type=password",{method:"POST",headers:hd(),body:JSON.stringify({email:$("em").value.trim(),password:$("pw").value})});
-   const j=await r.json().catch(()=>({}));
-   if(!r.ok||!j.access_token){msg("E-mail ou senha incorretos.");return}
-   T=j.access_token;
-   const q=await fetch(U+"/rest/v1/necessidades?select=*&order=criado_em.desc&limit=1000",{headers:hd(T)});
-   if(!q.ok){msg("Não foi possível carregar as respostas.");return}
-   rows=await q.json();draw();
-  }catch(x){msg("Sem conexão. Tente de novo.")}}}
+function tab(n){
+ $("v1").hidden=n!==1;$("v2").hidden=n!==2;$("v3").hidden=n!==3;$("v4").hidden=n!==4;$("t4").classList.toggle("on",n===4);if(n===4)myLoad();$("t3").classList.toggle("on",n===3);if(n>=2)patSub();
+ $("t1").classList.toggle("on",n===1);$("t2").classList.toggle("on",n===2);
+ if(n===2&&db&&!subscribed){
+  subscribed=true;
+  db.collection("necessidades").orderBy("criadoEm","desc").limit(500).onSnapshot(s=>{items=s.docs.map(d=>({id:d.id,...d.data()}));draw()},()=>note("Não foi possível carregar o painel.",1));
+ }
+}
+$("t1").onclick=()=>tab(1);$("t2").onclick=()=>tab(2);$("t3").onclick=()=>tab(3);$("t4").onclick=()=>tab(4);
+
+const MES=["JANEIRO","FEVEREIRO","MARÇO","ABRIL","MAIO","JUNHO","JULHO","AGOSTO","SETEMBRO","OUTUBRO","NOVEMBRO","DEZEMBRO"],MES2=MES.concat(["A DEFINIR"]);
+const OP={mod:["EAD","PRESENCIAL","BLENDED","ONLINE SÍNCRONA","ONLINE ASSÍNCRONA"],
+met:["APRENDIZAGEM BASEADA EM PROBLEMAS (PBL)","GAMIFICAÇÃO","SALA DE AULA INVERTIDA","MICROLEARNING","E-LEARNING","VALIDAÇÃO DE HABILIDADE","SIMULAÇÃO","AULA EXPOSITIVA","AULA EXPOSITIVA DIALOGADA","CAMPANHA","ESTUDO DE CASO","APRENDIZAGEM EM CICLO RÁPIDO (PDCR)","ROLE-PLAYING","OFICINA","ROTAÇÃO POR ESTAÇÕES","WORKSHOP","ENCONTRO","INFOGRAFICO","LIVE","OUTROS"],
+sol:["CORPORATIVO: SCIRAS","SCIRAS LOCAL","CORPORATIVO: NSP","NSP LOCAL","CORPORATIVO: DIRETORIA DE ENFERMAGEM","GERENTE DE ENFERMAGEM LOCAL","CORPORATIVO: QUALIDADE","CORPORATIVO: EDUCAÇÃO ASSISTENCIAL","CORPORATIVO: DESENVOLVIMENTO ORGANIZACIONAL","CORPORATIVO: TECNOLOGIA DA INFORMAÇÃO","CORPORATIVO: FISIOTERAPIA","CORPORATIVO: ENGENHARIA CLÍNICA","ENGENHARIA CLÍNICA LOCAL","COORDENADOR DE ENFERMAGEM LOCAL","CORPORATIVO: SESMET","SESMET LOCAL","CORPORATIVO: DIRETORIA MÉDICA","CORPORATIVO: DIRETORIA DIAGNÓSTICA","CORPORATIVA: DIRETORIA LABORATÓRIO","CORPORATIVO: OUTROS","LOCAL OUTROS"],
+st:["PLANEJAMENTO","EM ANDAMENTO","CONCLUÍDO","CONCLUÍDO COM PLANO DE AÇÃO","SUSPENSO PELO CORPORATIVO","SUSPENSO PELA GERENTE LOCAL","NÃO SE APLICA A UNIDADE"]};
+const PF=[["nome","NOME DO TREINAMENTO","t"],["carga","CARGA HORÁRIA EM MINUTOS","n"],["modalidade","MODALIDADE DE ENSINO","s",OP.mod],["metodologia","METODOLOGIA","s",OP.met],["solicitante","SOLICITANTE","s",OP.sol],["justificativa","JUSTIFICATIVA DO TREINAMENTO","t"],["indicador","INDICADOR ESTRATÉGICO RELACIONADO","t"],["setor","SETOR","t"],["publico","PÚBLICO-ALVO","t"],["mes","MÊS PREVISTO","s",MES2],["status","STATUS DO TREINAMENTO","s",OP.st],["obs","OBSERVAÇÃO","t"]];
+const BASE=[["MEDIDAS DE PREVENÇÃO DE INFECÇÃO DE CORRENTE SANGUÍNEA",40,"PRESENCIAL","VALIDAÇÃO DE HABILIDADE","IPCS A CVC","TODOS EXCETO, CME","FEVEREIRO"],["MEDIDAS DE PREVENÇÃO DE INFECÇÃO DE SÍTIO CIRÚRGICO",60,"EAD","GAMIFICAÇÃO","TAXA DE ISC","TODOS EXCETO, CME","ABRIL"],["HIGIENIZAÇÃO DAS MÃOS",30,"EAD","MICROLEARNING","TAXA DE CONSUMO DE ÁLCOOL","TODOS OS SETORES","MAIO"],["MEDIDAS DE PREVENÇÃO DE PNEUMONIA ASSOCIADA A VM",30,"EAD","MICROLEARNING","TAXA DE PAV","UTI","JUNHO"],["MEDIDAS DE PREVENÇÃO DE INFECÇÃO DE TRATO URINÁRIO",30,"EAD","MICROLEARNING","TAXA DE ITU","TODOS EXCETO, CME","AGOSTO"],["PRECAUÇÃO E ISOLAMENTOS",60,"EAD","E-LEARNING","NÃO SE APLICA","TODOS EXCETO, CME","OUTUBRO"],["HIGIENIZAÇÃO DAS MÃOS - 2ª AÇÃO DO ANO",30,"PRESENCIAL","CAMPANHA","TAXA DE CONSUMO DE ÁLCOOL","TODOS OS SETORES","DEZEMBRO"]];
+const opt=(a,s)=>a.map(o=>"<option"+(o===s?" selected":"")+">"+esc(o)+"</option>").join("");
+let pat=[],patOn=false;
+$("pf").innerHTML=PF.map(([k,l,t,o])=>"<label for=p_"+k+">"+l+"</label>"+(t==="s"?"<select id=p_"+k+">"+opt(o)+"</select>":"<input id=p_"+k+(t==="n"?" type=number min=0":"")+">")).join("")+"<p><button class=btn type=submit>Adicionar ao PAT</button></p>";
+$("pf").addEventListener("submit",async e=>{
+ e.preventDefault();if(!db)return;
+ const d={origem:"MANUAL"};PF.forEach(([k,,t])=>{const v=$("p_"+k).value.trim();d[k]=t==="n"?+v||0:v.toUpperCase()});
+ if(!d.nome){note("Informe o nome do treinamento.",1);return}
+ try{await db.collection("pat2027").add(d);$("pf").reset();note("Treinamento adicionado ao PAT 2027.")}catch(x){note("Não foi possível adicionar agora.",1)}
+});
+$("seed").onclick=async()=>{
+ if(!db)return;
+ try{await Promise.all(BASE.map((b,i)=>db.collection("pat2027").doc("scirasbase"+i).set({nome:b[0],carga:b[1],modalidade:b[2],metodologia:b[3],solicitante:"CORPORATIVO: SCIRAS",justificativa:"OBRIGATÓRIO PELA ANVISA",indicador:b[4],setor:b[5],publico:"EQUIPE DE ENFERMAGEM",mes:b[6],status:"PLANEJAMENTO",obs:"BASE PAT 2026 - CONFIRMAR MÊS COM A SCIRAS",origem:"SCIRAS 2026"})));note("Base SCIRAS carregada. Confirme os meses com a SCIRAS.")}catch(x){note("Não foi possível carregar a base.",1)}
+};
+function patSub(){
+ if(patOn||!db)return;patOn=true;
+ db.collection("pat2027").onSnapshot(s=>{pat=s.docs.map(d=>({id:d.id,...d.data()}));patDraw();draw();myDraw();preDraw()},()=>note("Não foi possível carregar o PAT.",1));
+}
+const card=d=>"<div class=item><b>"+esc(d.nome)+"</b><div class=chips>"+[d.freq,d.modalidade,d.metodologia,d.carga?d.carga+" min":"",d.solicitante,d.setor].filter(Boolean).map(x=>"<span class=chip>"+esc(x)+"</span>").join("")+"</div><div class=bar><select data-id="+d.id+" data-k=status>"+opt(OP.st,d.status)+"</select><select data-id="+d.id+" data-k=mes>"+opt(MES2,d.mes)+"</select><button class='btn alt' data-del="+d.id+">Excluir</button></div></div>";
+function patDraw(){
+ $("seed").hidden=pat.some(d=>d.origem==="SCIRAS 2026"||d.pre);
+ const R=pat.filter(d=>d.freq);$("pm").innerHTML=(R.length?"<h3>RECORRENTES <span class=chip>"+R.length+" treinamento(s)</span></h3>"+R.map(card).join(""):"")+MES2.map(m=>{const L=pat.filter(d=>d.mes===m&&!d.freq);if(!L.length&&m==="A DEFINIR")return "";
+  return "<h3>"+m+" <span class=chip>"+L.length+" treinamento(s) · "+(L.reduce((a,d)=>a+(+d.carga||0),0)/60).toFixed(1)+" h de conteúdo</span></h3>"+(L.length?L.map(card).join(""):"<p class=hint>Nada previsto.</p>")}).join("");
+}
+$("pm").addEventListener("change",async e=>{const t=e.target,id=t.dataset.id;if(!id)return;try{await db.collection("pat2027").doc(id).update({[t.dataset.k]:t.value})}catch(x){note("Não foi possível atualizar.",1)}});
+$("pm").addEventListener("click",async e=>{const b=e.target.closest("[data-del]");if(!b)return;
+ if(!b.dataset.arm){b.dataset.arm=1;b.textContent="Confirmar exclusão";return}
+ try{await db.collection("pat2027").doc(b.dataset.del).delete()}catch(x){note("Não foi possível excluir.",1)}});
+$("pexp").onclick=async()=>{
+ const dl=await claude.use("downloads");if(!dl){note("Exportação indisponível nesta visualização.",1);return}
+ const q=v=>'"'+String(v==null?"":v).replace(/"/g,'""')+'"';
+ const L=pat.slice().sort((a,b)=>MES2.indexOf(a.mes)-MES2.indexOf(b.mes));
+ const rows=[["ITEM"].concat(PF.map(f=>f[1])).map(q).join(";")].concat(L.map((d,i)=>[i+1].concat(PF.map(f=>d[f[0]])).map(q).join(";")));
+ try{await dl.save({filename:"pat-2027.csv",data:"\ufeff"+rows.join("\n")})}catch(x){}
+};
+
+function filtered(){
+ const q=$("q").value.toLowerCase(),c=$("fc").value,f=$("ff").value;
+ return items.filter(d=>(!c||d.criticidade===c)&&(!f||d.formato===f)&&(!q||(d.hospital+" "+d.area+" "+d.acontecendo).toLowerCase().includes(q))).sort((a,b)=>score(b)-score(a));
+}
+const attA=d=>d.anexoId?(ED?"<p><a href=# data-sb=\""+esc(d.anexoId)+"\">📎 "+esc(d.anexoNome)+"</a></p>":"<p>📎 "+esc(d.anexoNome)+"</p>"):"";
+const dt=x=>new Date(x).toLocaleDateString("pt-BR");
+function preDraw(){
+ const e=$("pre");if(!e)return;
+ const L=pat.filter(d=>d.pre);if(!L.length){e.innerHTML="";return}
+ const G={};L.forEach(d=>{const g=d.grupo||"OUTROS";(G[g]=G[g]||[]).push(d.titulo||d.nome)});
+ e.innerHTML="<div class=note><b>Já estão previstos em 2027</b><p class=hint>Se o seu pedido é um destes, não precisa registrar.</p>"+Object.entries(G).map(([g,a])=>"<p><b>"+esc(g)+"</b>: "+a.map(esc).join(" · ")+"</p>").join("")+"</div>";
+}
+async function myLoad(){
+ if(mine)return;
+ if(!db){$("my").innerHTML="<p class=hint>Entre na sua conta para ver seus pedidos.</p>";return}
+ const u=await claude.use("user"),id=u?await u.id():null;
+ if(!id){$("my").innerHTML="<p class=hint>Não foi possível identificar você.</p>";return}
+ mine=true;
+ db.collection("data/users/"+id).orderBy("criadoEm","desc").onSnapshot(s=>{myItems=s.docs.map(d=>d.data());myDraw()},()=>note("Não foi possível carregar seus pedidos.",1));
+}
+function myDraw(){
+ $("my").innerHTML=myItems.length?"<p class=hint>Aqui está o que você enviou neste aparelho e em que pé está. Se algo mudou, registre uma nova necessidade.</p>"+myItems.map(d=>{
+  const p=d._cron||(d.pedidoId&&pat.find(x=>x.pedidoId===d.pedidoId));
+  return "<div class=item><h3>"+esc(d.hospital)+" · "+esc(d.area)+"</h3><p class=hint>Enviado em "+dt(d.criadoEm)+"</p><div>"+esc(d.acontecendo)+"</div><div class=chips><span class=chip>Criticidade: "+esc(d.criticidade)+"</span><span class=chip>Mês desejado: "+esc(d.prazo)+"</span><span class=chip>"+esc(d.formato)+"</span></div><p>"+(p?"<span class='chip hot'>📅 No cronograma: "+esc(p.mes)+" · "+esc(p.status)+"</span>":"<span class=chip>Aguardando análise da Educação</span>")+"</p>"+attA(d)+"<details><summary>Ver tudo que enviei</summary><dl>"+ALL.filter(([k])=>d[k]&&!["hospital","area","acontecendo","criticidade","prazo","formato"].includes(k)).map(([k,l])=>"<dt>"+esc(l)+"</dt><dd>"+esc(d[k])+"</dd>").join("")+"</dl></details></div>"}).join(""):"<p class=hint>Você ainda não enviou nenhuma necessidade.</p>";
+}
+const sched=d=>{const pid=d.pedidoId||d.id,p=pat.find(x=>x.pedidoId===pid);
+ if(p)return "<p><span class=chip>📅 No cronograma: "+esc(p.mes)+" · "+esc(p.status)+"</span></p>";
+ return "<details><summary>Agendar no cronograma</summary><div class=bar><input id=sn_"+pid+" placeholder='Nome do treinamento' value=\""+esc(String(d.acontecendo||"").slice(0,80))+"\"><input id=sc_"+pid+" type=number min=0 placeholder='Carga (min)'><select id=sm_"+pid+">"+opt(MES2,MN.includes(d.prazo)?d.prazo:"A DEFINIR")+"</select><button class=btn data-ag="+pid+">Enviar ao cronograma</button></div></details>"};
+$("list").addEventListener("click",async e=>{
+ const b=e.target.closest("[data-ag]");if(!b||!db)return;
+ const pid=b.dataset.ag,d=items.find(x=>(x.pedidoId||x.id)===pid);if(!d)return;
+ const nome=$("sn_"+pid).value.trim().toUpperCase();if(!nome){note("Informe o nome do treinamento.",1);return}
+ const M={Presencial:"PRESENCIAL",EAD:"EAD",Blended:"BLENDED"},U=v=>String(v||"").toUpperCase();
+ try{await db.collection("pat2027").doc("ped_"+pid).set({nome,carga:+$("sc_"+pid).value||0,modalidade:M[d.formato]||"EAD",metodologia:"OUTROS",solicitante:"CORPORATIVO: OUTROS",justificativa:U(d.acontecendo),indicador:"",setor:U(d.area),publico:U(d.publico),mes:$("sm_"+pid).value,status:"PLANEJAMENTO",obs:"LNT - "+U(d.hospital),origem:"LNT",pedidoId:pid});note("Enviado ao cronograma. O solicitante já vê o mês em Meus pedidos.")}catch(x){note("Não foi possível agendar agora.",1)}
+});
 function draw(){
- const areas=[...new Set(rows.map(r=>r.area))].sort();
- const L=rows.filter(r=>(!fa||r.area===fa)&&(!fc||r.criticidade===fc)).sort((a,b)=>SC(b)-SC(a)||String(b.criado_em).localeCompare(String(a.criado_em)));
- $("m").innerHTML=`<h2>Pedidos (${L.length})</h2><div class="row"><select id="fa" aria-label="Filtrar por área"><option value="">Todas as áreas</option>${areas.map(a=>`<option${a===fa?" selected":""}>${esc(a)}</option>`).join("")}</select><select id="fc" aria-label="Filtrar por criticidade"><option value="">Toda criticidade</option>${OPS.criticidade.map(c=>`<option${c===fc?" selected":""}>${c}</option>`).join("")}</select><button class="btn" id="ex" type="button">Exportar CSV</button></div>`+
- (L.length?L.map(r=>`<details class="card"><summary><b>${esc(r.area)}</b> ${esc(r.hospital)} · ${esc(r.criticidade)} · ${esc(r.prazo)} · ${new Date(r.criado_em).toLocaleDateString("pt-BR")}</summary><dl>${DK.filter(k=>r[k]).map(k=>`<dt>${esc(F[k]?F[k][0]:"Formato")}</dt><dd>${esc(r[k])}</dd>`).join("")}</dl></details>`).join(""):`<p class="mut">Nenhuma resposta ainda. Envie o link e o código de acesso aos especialistas.</p>`);
- $("fa").onchange=e=>{fa=e.target.value;draw()};
- $("fc").onchange=e=>{fc=e.target.value;draw()};
- $("ex").onclick=()=>csv(L)}
-function csv(L){
- const C=["criado_em","hospital","area","solicitante","criticidade","prazo","justificativa","formato","acontecendo","publico","diferente","resultados","medir","conteudista","fatores","sucesso","status"];
- const q=v=>{let s=String(v==null?"":v);if(/^[=+\-@]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'};
- const t="\ufeff"+[C.map(q),...L.map(r=>C.map(c=>q(c==="criado_em"?new Date(r[c]).toLocaleDateString("pt-BR"):r[c])))].map(l=>l.join(";")).join("\r\n");
- const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/csv;charset=utf-8"}));a.download="LNT_respostas.csv";a.click()}
-const route=()=>location.hash==="#painel"?panel():form();
-window.onhashchange=route;route();
+ const n=(k,v)=>items.filter(d=>d[k]===v).length;
+ $("stats").innerHTML=[["Registros",items.length],["Criticidade alta",n("criticidade","Alta")],["Sem mês definido",n("prazo","SEM MÊS DEFINIDO")],["Presencial",n("formato","Presencial")],["EAD",n("formato","EAD")],["Blended",n("formato","Blended")]].map(([l,v])=>"<div class=stat><b>"+v+"</b><span>"+l+"</span></div>").join("");
+ const L=filtered();
+ $("list").innerHTML=L.length?L.map(d=>"<div class=item><h3>"+esc(d.hospital)+" · "+esc(d.area)+"</h3><div>"+esc(d.acontecendo)+"</div><div class=chips><span class='chip"+(d.criticidade==="Alta"?" hot":"")+"'>Criticidade: "+esc(d.criticidade)+"</span><span class=chip>"+esc(d.prazo)+"</span><span class=chip>"+esc(d.formato)+"</span><span class=chip>Pontuação "+score(d)+"</span></div>"+attA(d)+sched(d)+"<details><summary>Ver detalhes</summary><dl>"+ALL.filter(([k])=>d[k]&&!["hospital","area","acontecendo"].includes(k)).map(([k,l])=>"<dt>"+esc(l)+"</dt><dd>"+esc(d[k])+"</dd>").join("")+"</dl></details></div>").join(""):"<p class=hint>Nenhuma necessidade registrada ainda.</p>";
+}
+["q","fc","ff"].forEach(i=>$(i).addEventListener("input",draw));
+
+$("lk").onclick=async()=>{const u=location.href.split("#")[0];try{await navigator.clipboard.writeText(u);note("Link copiado. Quem tiver o link consegue responder.")}catch(x){note("Copie o link: "+u)}};
+$("exp").onclick=async()=>{
+ const dl=await claude.use("downloads");
+ if(!dl){note("Exportação indisponível nesta visualização.",1);return}
+ const q=v=>'"'+String(v==null?"":v).replace(/"/g,'""')+'"';
+ const rows=[ALL.map(a=>q(a[1])).concat(['"Pontuação"']).join(";")].concat(filtered().map(d=>ALL.map(([k])=>q(d[k])).concat([score(d)]).join(";")));
+ try{await dl.save({filename:"lnt-necessidades.csv",data:"\ufeff"+rows.join("\n")})}catch(x){}
+};
+
+function enableEd(){ED=true;$("t2").hidden=false;$("t3").hidden=false;$("lg").textContent="Sair";tab(2)}
+$("lg").onclick=async()=>{if(ED){await sb.auth.signOut();location.reload();return}$("lgbox").hidden=!$("lgbox").hidden};
+$("lgin").onclick=async()=>{const r=await sb.auth.signInWithPassword({email:$("lge").value.trim(),password:$("lgp").value});if(r.error){note("E-mail ou senha incorretos.",1);return}location.reload()};
+(async()=>{
+ try{
+  if(SB_URL.indexOf("SEU-PROJETO")>-1){note("Falta configurar SB_URL e SB_KEY no início do script.",1);return}
+  db=await claude.use("db");asg=await claude.use("assets");if($("attw"))$("attw").hidden=false;patSub();
+  const u=await claude.use("user");
+  if(await u.canEdit())enableEd();
+ }catch(x){note("Não foi possível conectar ao banco de dados.",1)}
+})();
 </script>
 </body>
 </html>
